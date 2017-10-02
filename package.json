@@ -1,0 +1,35 @@
+{
+  "name": "react-slide-indexer",
+  "version": "0.1.0",
+  "description": "A slide indexer component for react",
+  "main": "src/index.js",
+  "scripts": {
+    "build": "tsc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gunx3961/react-slide-indexer.git"
+  },
+  "keywords": [
+    "react",
+    "mobile",
+    "navigation",
+    "slide"
+  ],
+  "author": "Gunx <gunx@foxmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/gunx3961/react-slide-indexer/issues"
+  },
+  "homepage": "https://github.com/gunx3961/react-slide-indexer#readme",
+  "dependencies": {
+    "@types/react": "^16.0.7",
+    "@types/react-dom": "^15.5.5",
+    "react": "^15.6.2",
+    "react-dom": "^15.6.2"
+  },
+  "devDependencies": {
+    "webpack": "^3.6.0",
+    "webpack-dev-server": "^2.9.1"
+  }
+}
