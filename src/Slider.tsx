@@ -49,7 +49,9 @@ export default class IndexedSection extends React.PureComponent<Props, State> {
   render() {
     const indexes = this.props.indexes.map(index => (
       <IndexItem
-
+        key={index}
+        index={index}
+        focus={false}
       />
     ));
 

@@ -5,7 +5,6 @@ import getOffsetTop from './utils/getOffsetTop';
 import getDeltaY from './utils/getDeltaY';
 
 export interface Props {
-  children?: React.ReactElement<any>;
   container?: HTMLElement;
 }
 
@@ -39,13 +38,13 @@ export default class SlideIndexer extends React.PureComponent<Props, {}> {
     const {
       children: childrenProp,
     } = this.props;
-    const keys: Array<string> = [];
+    const indexes: Array<string> = [];
     const children = React.Children.map(childrenProp, (child) => {
       if (!React.isValidElement<any>(child)) return null;
       // if (!React.isValidElement<{ index: string }>(child)) return null;
 
       const index = child.props.index;
-      keys.push(index);
+      indexes.push(index);
       return React.cloneElement(child, {
         sectionRef: (el) => { this.sections[index] = el; }
       });
@@ -56,7 +55,7 @@ export default class SlideIndexer extends React.PureComponent<Props, {}> {
         role="slide-indexer"
       >
         <Slider
-          indexes={keys}
+          indexes={indexes}
           onRequestNavigation={this.handleNavigation}
         />
         {children}

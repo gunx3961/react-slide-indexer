@@ -1,3 +1,6 @@
+# Exclude compiled files
+lib
+
 # Logs
 logs
 *.log
