@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 
 import IndexItem from './IndexItem';
 
@@ -11,16 +11,18 @@ export interface State {
   clientX: number;
 }
 
-export default class IndexedSection extends React.PureComponent<Props, State> {
+export default class IndexedSection extends React.Component<Props, State> {
   constructor() {
     super();
+    this.handleTouchStart = this.handleTouchStart.bind(this);
+    this.handleTouchMove = this.handleTouchMove.bind(this);
 
     this.state = {
       clientX: 0,
     };
   }
 
-  getKeyByCoordinate(x: number, y: number): string {
+  getIndexByCoordinate(x: number, y: number): string {
     const target = document.elementFromPoint(x, y);
     if (!target) return null;
     return target.getAttribute('data-rsi-index');
@@ -31,15 +33,16 @@ export default class IndexedSection extends React.PureComponent<Props, State> {
 
     const { clientX, clientY } = ev.touches[0];
     this.setState({ clientX });
-    const index = this.getKeyByCoordinate(clientX, clientY);
+    const index = this.getIndexByCoordinate(clientX, clientY);
     if (!index) return;
     this.props.onRequestNavigation(index);
   }
 
   handleTouchMove(ev: React.TouchEvent<any>): void {
-    const key = this.getKeyByCoordinate(this.state.clientX, ev.touches[0].clientY)
-    if (!key) return;
-    this.props.onRequestNavigation(key);
+    const index = this.getIndexByCoordinate(this.state.clientX, ev.touches[0].clientY);
+    
+    if (!index) return;
+    this.props.onRequestNavigation(index);
   }
 
   handleTouchEnd() {
@@ -57,6 +60,18 @@ export default class IndexedSection extends React.PureComponent<Props, State> {
 
     return (
       <div
+        style={{
+          backgroundColor: 'rgba(0,0,0,.2)',
+          zIndex: 9999,
+          display: 'flex',
+          position: 'fixed',
+          right: 0,
+          top: '25%',
+          height: '50%',
+          justifyContent: 'space-around',
+          flexDirection: 'column',
+          touchAction: 'none',
+        }}
         role="navigation"
         onTouchStart={this.handleTouchStart}
         onTouchMove={this.handleTouchMove}

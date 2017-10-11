@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 
 export interface Props {
   index: string;
@@ -6,15 +6,22 @@ export interface Props {
 }
 
 export default class IndexItem extends React.Component<Props, {}> {
+  constructor() {
+    super();
+  }
+
   render() {
     const { index } = this.props;
 
     return (
       <div
         role="navigation-item"
-        data-rsi-key={index}
+        data-rsi-index={index}
+        style={{
+          padding: '.1rem',
+        }}
       >
-        <span>{index}</span>
+        <span data-rsi-index={index}>{index}</span>
       </div>
     )
   }

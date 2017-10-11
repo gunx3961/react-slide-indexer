@@ -1,18 +1,21 @@
-import React from 'react';
+import * as React from 'react';
 
 export interface Props {
   index: string;
   sectionRef: React.Ref<any>;
 }
 
-export default class IndexedSection extends React.PureComponent<Props, {}> {
+export default class IndexedSection extends React.Component<Props, {}> {
+  constructor() {
+    super();
+  }
+
   render() {
     return (
       <div
         ref={this.props.sectionRef}
         role="section"
       >
-        <div role="heading">{this.props.index}</div>
         {this.props.children}
       </div>
     );

@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import SlideIndexer from '../SlideIndexer';
 import IndexedSection from '../IndexedSection';
 import Slider from '../Slider';
@@ -31,7 +31,28 @@ describe('A suite', () => {
     expect(slider.prop('indexes')).toEqual(Array.from(new Array(5), (v, i) => `${i}`));
   });
 
-  // it('should use root element as the container');
+  it('should use the root element as default container', () => {
+    const indexer = mount(<SlideIndexer />);
+    expect(indexer.prop('container')).toBe(document.documentElement);
+  });
 
-  // it('should ignore elements without index props');
+  it('should only accept IndexedSection as a child', () => {
+    const sections = Array.from(new Array(5), (v, i) => `${i}`).map((v) => (
+      <IndexedSection index={v} key={v} sectionRef={() => { }}>
+        <div>{v}</div>
+      </IndexedSection>
+    ));
+
+    const indexer = mount(
+      <SlideIndexer>
+        <div>foo</div>
+        {sections}
+        <div>bar</div>
+      </SlideIndexer>
+    );
+
+    const instance = indexer.instance() as SlideIndexer;
+    expect(Object.keys(instance.sections)).toHaveLength(sections.length);
+    expect(indexer.find('div[role="slide-indexer"]').children()).toHaveLength(sections.length + 1);
+  });
 });

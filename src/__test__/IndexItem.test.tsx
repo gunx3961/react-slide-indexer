@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import { mount } from 'enzyme';
 import IndexItem from '../IndexItem';
 
@@ -18,8 +18,8 @@ describe('IndexItem', () => {
 
   it('should have a data-attr with the given index', () => {
     const indexItem = mount(<IndexItem index="d" focus={false} />);
-    expect(indexItem.find('div').prop('data-rsi-key')).toBe('d');
+    expect(indexItem.find('div').prop('data-rsi-index')).toBe('d');
     indexItem.setProps({ index: 'e' });
-    expect(indexItem.find('div').prop('data-rsi-key')).toBe('e');
+    expect(indexItem.find('div').prop('data-rsi-index')).toBe('e');
   });
 });
