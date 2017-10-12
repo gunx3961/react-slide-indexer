@@ -7,17 +7,20 @@ import getDeltaY from './utils/getDeltaY';
 
 export interface Props {
   getContainer?: { (): HTMLElement };
+  sliderClassName?: string;
+  indexItemClassName?: string;
 }
 
 export interface State {
   container: HTMLElement;
 }
 
-
 export default class SlideIndexer extends React.Component<Props, State> {
-  // static defaultProps: Partial<Props> = {
-  //   container: document.documentElement,
-  // };
+  static defaultProps: Partial<Props> = {
+    getContainer: () => document.documentElement,
+    sliderClassName: 'rsi-slider',
+    indexItemClassName: 'rsi-index-item',
+  };
 
   sections: { [index: string]: HTMLElement };
 
@@ -25,9 +28,6 @@ export default class SlideIndexer extends React.Component<Props, State> {
     super();
     this.handleNavigation = this.handleNavigation.bind(this);
 
-    this.state = {
-      container: document.documentElement,
-    };
     this.sections = {};
   }
 
@@ -43,7 +43,7 @@ export default class SlideIndexer extends React.Component<Props, State> {
 
   handleNavigation(index: string): void {
     const { container } = this.state;
-    
+
     if (container === document.documentElement) {
       container.scrollTop = getOffsetTop(this.sections[index]);
     } else {
@@ -73,6 +73,8 @@ export default class SlideIndexer extends React.Component<Props, State> {
         role="slide-indexer"
       >
         <Slider
+          className={this.props.sliderClassName}
+          indexItemClassName={this.props.indexItemClassName}
           indexes={indexes}
           onRequestNavigation={this.handleNavigation}
         />

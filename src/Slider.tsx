@@ -5,6 +5,8 @@ import IndexItem from './IndexItem';
 export interface Props {
   onRequestNavigation: { (index: string): void };
   indexes: Array<string>;
+  className: string;
+  indexItemClassName: string;
 }
 
 export interface State {
@@ -52,6 +54,7 @@ export default class IndexedSection extends React.Component<Props, State> {
   render() {
     const indexes = this.props.indexes.map(index => (
       <IndexItem
+        className={this.props.indexItemClassName}
         key={index}
         index={index}
         focus={false}
@@ -60,18 +63,7 @@ export default class IndexedSection extends React.Component<Props, State> {
 
     return (
       <div
-        style={{
-          backgroundColor: 'rgba(0,0,0,.2)',
-          zIndex: 9999,
-          display: 'flex',
-          position: 'fixed',
-          right: 0,
-          top: '25%',
-          height: '50%',
-          justifyContent: 'space-around',
-          flexDirection: 'column',
-          touchAction: 'none',
-        }}
+        className={this.props.className}
         role="navigation"
         onTouchStart={this.handleTouchStart}
         onTouchMove={this.handleTouchMove}
