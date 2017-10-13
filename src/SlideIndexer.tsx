@@ -9,6 +9,7 @@ export interface Props {
   getContainer?: { (): HTMLElement };
   sliderClassName?: string;
   indexItemClassName?: string;
+  onNavigation?: { (container: HTMLElement): void };
 }
 
 export interface State {
@@ -43,12 +44,16 @@ export default class SlideIndexer extends React.Component<Props, State> {
 
   handleNavigation(index: string): void {
     const { container } = this.state;
+    const { onNavigation } = this.props;
 
+    // TODO: don't do anything if offsetTop not changed
     if (container === document.documentElement) {
       container.scrollTop = getOffsetTop(this.sections[index]);
     } else {
       container.scrollTop += getDeltaY(this.sections[index], container);
     }
+
+    if (onNavigation) onNavigation(container);
   }
 
   render() {
@@ -58,7 +63,6 @@ export default class SlideIndexer extends React.Component<Props, State> {
     const indexes: Array<string> = [];
     const children = React.Children.map(childrenProp, (child) => {
       if (!React.isValidElement<any>(child)) return null;
-      // if (!React.isValidElement<{ index: string }>(child)) return null;
       if (child.type !== IndexedSection) return null;
 
       const index = child.props.index;

@@ -33,7 +33,7 @@ describe('A suite', () => {
 
   it('should use the root element as default container', () => {
     const indexer = mount(<SlideIndexer />);
-    expect(indexer.prop('container')).toBe(document.documentElement);
+    expect(indexer.state('container')).toBe(document.documentElement);
   });
 
   it('should only accept IndexedSection as a child', () => {
