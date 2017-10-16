@@ -13,7 +13,7 @@ export interface State {
   clientX: number;
 }
 
-export default class IndexedSection extends React.Component<Props, State> {
+export default class Slider extends React.Component<Props, State> {
   constructor() {
     super();
     this.handleTouchStart = this.handleTouchStart.bind(this);
@@ -42,7 +42,7 @@ export default class IndexedSection extends React.Component<Props, State> {
 
   handleTouchMove(ev: React.TouchEvent<any>): void {
     const index = this.getIndexByCoordinate(this.state.clientX, ev.touches[0].clientY);
-    
+
     if (!index) return;
     this.props.onRequestNavigation(index);
   }

@@ -1,4 +1,5 @@
 import * as React from 'react';
+import * as Portal from 'react-portal';
 
 import Slider from './Slider';
 import IndexedSection from './IndexedSection';
@@ -76,12 +77,14 @@ export default class SlideIndexer extends React.Component<Props, State> {
       <div
         role="slide-indexer"
       >
-        <Slider
-          className={this.props.sliderClassName}
-          indexItemClassName={this.props.indexItemClassName}
-          indexes={indexes}
-          onRequestNavigation={this.handleNavigation}
-        />
+        <Portal isOpened={true}>
+          <Slider
+            className={this.props.sliderClassName}
+            indexItemClassName={this.props.indexItemClassName}
+            indexes={indexes}
+            onRequestNavigation={this.handleNavigation}
+          />
+        </Portal>
         {children}
       </div>
     );

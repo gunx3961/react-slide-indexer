@@ -30,20 +30,22 @@
   "homepage": "https://github.com/gunx3961/react-slide-indexer#readme",
   "dependencies": {
     "react": "^15.6.2",
-    "react-dom": "^15.6.2"
+    "react-dom": "^15.6.2",
+    "react-portal": "^3.1.0"
   },
   "devDependencies": {
-    "@types/enzyme": "^2.8.11",
+    "@types/enzyme": "^3.1.0",
     "@types/jest": "^21.1.2",
     "@types/react": "^15.6.4",
     "@types/react-dom": "^15.5.6",
+    "@types/react-portal": "^3.0.3",
     "@types/sinon": "^2.3.5",
     "enzyme": "^3.1.0",
     "enzyme-adapter-react-15": "^1.0.1",
     "jest": "^21.2.1",
     "react-test-renderer": "^15.6.2",
     "sinon": "^4.0.1",
-    "ts-jest": "^21.1.0",
+    "ts-jest": "^21.1.2",
     "typescript": "^2.5.3",
     "webpack": "^3.6.0",
     "webpack-dev-server": "^2.9.1"

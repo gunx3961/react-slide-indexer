@@ -1,8 +1,9 @@
 import * as React from 'react';
+import { mount } from 'enzyme';
+
 import SlideIndexer from '../SlideIndexer';
 import IndexedSection from '../IndexedSection';
 import Slider from '../Slider';
-import { mount } from 'enzyme';
 
 describe('A suite', () => {
   it('should render without any exceptions', () => {
