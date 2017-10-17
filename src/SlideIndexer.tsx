@@ -1,5 +1,6 @@
 import * as React from 'react';
 import * as Portal from 'react-portal';
+import _throttle = require('lodash.throttle');
 
 import Slider from './Slider';
 import IndexedSection from './IndexedSection';
@@ -33,7 +34,7 @@ export default class SlideIndexer extends React.Component<Props, State> {
   constructor() {
     super();
     this.handleNavigation = this.handleNavigation.bind(this);
-    // this.getCurrentIndex = this.getCurrentIndex.bind(this);
+    this.getCurrentIndex = _throttle(this.getCurrentIndex, .1e3, { leading: true });
     this.handleContainerScroll = this.handleContainerScroll.bind(this);
 
     this.state = {
