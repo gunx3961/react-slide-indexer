@@ -10,11 +10,13 @@ export interface Props {
   getContainer?: { (): HTMLElement };
   sliderClassName?: string;
   indexItemClassName?: string;
+  currentIndexItemClassName?: string;
   onNavigation?: { (container: HTMLElement): void };
 }
 
 export interface State {
   container: HTMLElement;
+  currentIndex?: string;
 }
 
 export default class SlideIndexer extends React.Component<Props, State> {
@@ -22,26 +24,45 @@ export default class SlideIndexer extends React.Component<Props, State> {
     getContainer: () => document.documentElement,
     sliderClassName: 'rsi-slider',
     indexItemClassName: 'rsi-index-item',
+    currentIndexItemClassName: 'rsi-focus',
   };
 
   sections: { [index: string]: HTMLElement };
+  indexes: Array<string>;
 
   constructor() {
     super();
     this.handleNavigation = this.handleNavigation.bind(this);
+    // this.getCurrentIndex = this.getCurrentIndex.bind(this);
+    this.handleContainerScroll = this.handleContainerScroll.bind(this);
 
+    this.state = {
+      container: document.documentElement,
+    };
     this.sections = {};
+    this.indexes = [];
   }
 
   componentDidMount() {
-    this.setState({ container: this.props.getContainer() });
+    const container = this.props.getContainer();
+    this.setState({ container });
+
+    container.addEventListener('scroll', this.handleContainerScroll, false);
   }
 
   componentWillReceiveProps(nextProps) {
     if (this.props.getContainer !== nextProps.getContainer) {
-      this.setState({ container: this.props.getContainer() });
+      this.state.container.removeEventListener('scroll', this.handleContainerScroll, false);
+      const newContainer = this.props.getContainer();
+      this.setState({ container: newContainer });
+      newContainer.addEventListener('scroll', this.handleContainerScroll, false);
     }
   }
+
+  componentWillUnmount() {
+    this.state.container.removeEventListener('scroll', this.handleContainerScroll, false);
+  }
+
 
   handleNavigation(index: string): void {
     const { container } = this.state;
@@ -55,6 +76,28 @@ export default class SlideIndexer extends React.Component<Props, State> {
     }
 
     if (onNavigation) onNavigation(container);
+  }
+
+  getCurrentIndex?(): string {
+    const { container } = this.state;
+    const { indexes, sections } = this;
+
+    if (container === document.documentElement) {
+      for (let i = 0; i < indexes.length; i++) {
+        if (getOffsetTop(sections[indexes[i]]) > container.scrollTop) return indexes[i - 1];
+      }
+    } else {
+      for (let i = 0; i < indexes.length; i++) {
+        const deltaY = getDeltaY(sections[indexes[i]], container);
+        if (deltaY > 0) return indexes[i - 1];
+      }
+    }
+  }
+
+  handleContainerScroll(): void {
+    this.setState({
+      currentIndex: this.getCurrentIndex(),
+    });
   }
 
   render() {
@@ -72,6 +115,7 @@ export default class SlideIndexer extends React.Component<Props, State> {
         sectionRef: (el) => { this.sections[index] = el; }
       });
     });
+    this.indexes = indexes;
 
     return (
       <div
@@ -81,8 +125,10 @@ export default class SlideIndexer extends React.Component<Props, State> {
           <Slider
             className={this.props.sliderClassName}
             indexItemClassName={this.props.indexItemClassName}
+            currentIndexItemClassName={this.props.currentIndexItemClassName}
             indexes={indexes}
             onRequestNavigation={this.handleNavigation}
+            currentIndex={this.state.currentIndex}
           />
         </Portal>
         {children}

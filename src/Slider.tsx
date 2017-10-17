@@ -7,6 +7,8 @@ export interface Props {
   indexes: Array<string>;
   className: string;
   indexItemClassName: string;
+  currentIndexItemClassName: string;
+  currentIndex?: string;
 }
 
 export interface State {
@@ -52,14 +54,20 @@ export default class Slider extends React.Component<Props, State> {
 
 
   render() {
-    const indexes = this.props.indexes.map(index => (
-      <IndexItem
-        className={this.props.indexItemClassName}
-        key={index}
-        index={index}
-        focus={false}
-      />
-    ));
+    const indexes = this.props.indexes.map(index => {
+      const focus = this.props.currentIndex === index;
+      let className = this.props.indexItemClassName;
+      if (focus) className += ` ${this.props.currentIndexItemClassName}`;
+
+      return (
+        <IndexItem
+          className={className}
+          key={index}
+          index={index}
+          focus={focus}
+        />
+      )
+    });
 
     return (
       <div
