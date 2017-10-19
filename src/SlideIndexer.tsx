@@ -90,7 +90,7 @@ export default class SlideIndexer extends React.Component<Props, State> {
     } else {
       for (let i = 0; i < indexes.length; i++) {
         const deltaY = getDeltaY(sections[indexes[i]], container);
-        if (deltaY > 0) return indexes[i - 1];
+        if (deltaY > 1) return indexes[i - 1];
       }
     }
   }
