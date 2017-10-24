@@ -4,8 +4,11 @@ import _throttle = require('lodash.throttle');
 
 import Slider from './Slider';
 import IndexedSection from './IndexedSection';
-import getOffsetTop from './utils/getOffsetTop';
-import getDeltaY from './utils/getDeltaY';
+import {
+  getDeltaY,
+  getOffsetTop,
+  isScrolledToElement,
+} from './utils';
 
 export interface Props {
   getContainer?: { (): HTMLElement };
@@ -85,12 +88,11 @@ export default class SlideIndexer extends React.Component<Props, State> {
 
     if (container === document.documentElement) {
       for (let i = 0; i < indexes.length; i++) {
-        if (getOffsetTop(sections[indexes[i]]) > container.scrollTop) return indexes[i - 1];
+        if (isScrolledToElement(sections[indexes[i]])) return indexes[i];
       }
     } else {
       for (let i = 0; i < indexes.length; i++) {
-        const deltaY = getDeltaY(sections[indexes[i]], container);
-        if (deltaY > 1) return indexes[i - 1];
+        if (isScrolledToElement(sections[indexes[i]], container)) return indexes[i];
       }
     }
   }
