@@ -124,7 +124,7 @@ export default class SlideIndexer extends React.Component<Props, State> {
       <div
         role="slide-indexer"
       >
-        <Portal isOpened={true}>
+        <Portal>
           <Slider
             className={this.props.sliderClassName}
             indexItemClassName={this.props.indexItemClassName}
